@@ -9,6 +9,7 @@ public class TicTacToe {
 
 public static void main(String[] args) {
     TicTacToe ttt = new TicTacToe();
+    fillArray();
     ttt.printBoard();
     ttt.enterFieldName(false);
     ttt.printBoard();
@@ -17,12 +18,21 @@ public static void main(String[] args) {
     
 }
 
+private static void fillArray() {
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            board[i][j] = ' ';
+        }
+    }
+}
+
 public void printBoard() {
-    String underRowOfBoard = "\n     [0] [1] [2]\n";
+    String underRowOfBoard = "\n      [0] [1] [2]\n";
     String firstRowOfBoard = "\n[0]  | " + board[0][0] + " | "  + board[0][1] + " | " + board[0][2] + " |\n";
+    String betweenRowOfBoard = "     ----+---+----\n";
     String secondRowOfBoard = "[1]  | " + board[1][0] + " | "  + board[1][1] + " | " + board[1][2] + " |\n";
     String thirdRowOfBoard = "[2]  | " + board[2][0] + " | "  + board[2][1] + " | " + board[2][2] + " |\n";
-    String strBoard = underRowOfBoard + firstRowOfBoard + secondRowOfBoard + thirdRowOfBoard;             
+    String strBoard = underRowOfBoard + firstRowOfBoard + betweenRowOfBoard + secondRowOfBoard + betweenRowOfBoard + thirdRowOfBoard;             
     System.out.println(strBoard);
 }
 
