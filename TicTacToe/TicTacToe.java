@@ -1,15 +1,18 @@
 package TicTacToe;
 
+import java.util.Scanner;
+
 public class TicTacToe {
 
+    private static Scanner input = new Scanner(System.in);
     private static char[][] board = new char[3][3];
 
 public static void main(String[] args) {
     TicTacToe ttt = new TicTacToe();
     ttt.printBoard();
-    ttt.markX("11");
+    ttt.enterFieldName(false);
     ttt.printBoard();
-    ttt.markO("21");
+    ttt.enterFieldName(true);
     ttt.printBoard();
     
 }
@@ -37,6 +40,16 @@ public static int[] convertStrToField(String mark) {
     int x = mark.charAt(0) - 48;
     int y = mark.charAt(1) - 48;
     return new int[] {x, y};
+}
+
+public void enterFieldName(boolean whichPlayer) {
+    System.out.print("Podaj pole, które chcesz zaznaczyć: ");
+    String userMark = input.next();
+    if (whichPlayer == false) {
+        markX(userMark);
+    } else {
+        markO(userMark);
+    }
 }
 
 }
