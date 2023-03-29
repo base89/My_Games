@@ -44,19 +44,19 @@ public void markO(String marks) {
 }
 
 public static int[] convertStrToField(String mark) {
-    int x = mark.charAt(0) - 48;
-    int y = mark.charAt(1) - 48;
+    final int CHAR_ZERO_VALUE = 48;
+    int x = mark.charAt(0) - CHAR_ZERO_VALUE;
+    int y = mark.charAt(1) - CHAR_ZERO_VALUE;
     return new int[] {x, y};
 }
 
 public void enterFieldName(int noPlayer) {
-    System.out.print("Podaj pole, które chcesz zaznaczyć: ");
+    System.out.print("Podaj pole, które chcesz zaznaczyć (np. [0][0] wpisz 00): ");
     String userMark = input.next();
-    if (noPlayer == 0) {
+    if (noPlayer == 0) 
         markX(userMark);
-    } else {
+    else
         markO(userMark);
-    }
 }
 
 public void switchPlayer(int noPlayer) {
@@ -77,11 +77,11 @@ public void switchPlayer(int noPlayer) {
 
 public void executeGame() {
     int noPlayer = 0;
+    final int MAX_MOVES = 9;
     int moves = 0;
-    while (moves < 9) {
+    while (moves < MAX_MOVES) {
         switchPlayer(noPlayer);
         noPlayer = ++noPlayer % 2;
-        System.out.println("Gracz = " + noPlayer);
         moves++;
     }
 }
