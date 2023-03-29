@@ -11,10 +11,7 @@ public static void main(String[] args) {
     TicTacToe ttt = new TicTacToe();
     fillArray();
     ttt.printBoard();
-    ttt.enterFieldName(false);
-    ttt.printBoard();
-    ttt.enterFieldName(true);
-    ttt.printBoard();
+    ttt.executeGame();
     
 }
 
@@ -52,13 +49,40 @@ public static int[] convertStrToField(String mark) {
     return new int[] {x, y};
 }
 
-public void enterFieldName(boolean whichPlayer) {
+public void enterFieldName(int noPlayer) {
     System.out.print("Podaj pole, które chcesz zaznaczyć: ");
     String userMark = input.next();
-    if (whichPlayer == false) {
+    if (noPlayer == 0) {
         markX(userMark);
     } else {
         markO(userMark);
+    }
+}
+
+public void switchPlayer(int noPlayer) {
+    switch (noPlayer) {
+        case 0:
+            System.out.println("Gracz 1 -> zaznacz 'X'");
+            enterFieldName(0);
+            printBoard();
+            break;
+    
+        case 1:
+            System.out.println("Gracz 2 -> zaznacz 'O'");
+            enterFieldName(1);
+            printBoard();
+            break;
+    }
+}
+
+public void executeGame() {
+    int noPlayer = 0;
+    int moves = 0;
+    while (moves < 9) {
+        switchPlayer(noPlayer);
+        noPlayer = ++noPlayer % 2;
+        System.out.println("Gracz = " + noPlayer);
+        moves++;
     }
 }
 
