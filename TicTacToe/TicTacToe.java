@@ -2,6 +2,8 @@ package TicTacToe;
 
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner14;
+
 public class TicTacToe {
 
     private static Scanner input = new Scanner(System.in);
@@ -12,23 +14,11 @@ public class TicTacToe {
     }
 
     public static void main(String[] args) {
-        TicTacToe ttt = new TicTacToe();
-        fillArray();
-        ttt.printBoard();
-        ttt.executeGame();
-
-    }
-
-    public static char[][] getBoard() {
-        return board;
+        displayMainMenu();
     }
 
     public static void setBoard(char[][] board) {
         TicTacToe.board = board;
-    }
-
-    public static int[] getLastMark() {
-        return lastMark;
     }
 
     public static void setLastMark(int[] lastMark) {
@@ -52,6 +42,8 @@ public class TicTacToe {
         String thirdRowOfBoard = "[2]  | " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + " |\n";
         String strBoard = underRowOfBoard + firstRowOfBoard + betweenRowOfBoard + secondRowOfBoard + betweenRowOfBoard
                 + thirdRowOfBoard;
+        System.out.println("    KÓŁKO I KRZYŻYK    ");
+        System.out.println("-----------------------");
         System.out.println(strBoard);
     }
 
@@ -92,7 +84,7 @@ public class TicTacToe {
                 enterFieldName(0);
                 printBoard();
                 if(isWin(noPlayer)) {
-                    System.out.println("Gracz 1 WYGRYWA!");
+                    System.out.println("Gracz 1 WYGRYWA!\n");
                     System.exit(0);
                 }
                 break;
@@ -102,7 +94,7 @@ public class TicTacToe {
                 enterFieldName(1);
                 printBoard();
                 if(isWin(noPlayer)) {
-                    System.out.println("Gracz 1 WYGRYWA!");
+                    System.out.println("Gracz 2 WYGRYWA!\n");
                     System.exit(0);
                 }
                 break;
@@ -139,6 +131,47 @@ public class TicTacToe {
             winFlag = true;
         }
         return winFlag;
+    }
+
+    public static void startGame(){
+        TicTacToe ttt = new TicTacToe();
+        fillArray();
+        ttt.printBoard();
+        ttt.executeGame();
+    }
+
+    public static void displayMainMenu(){
+        int menuOption;
+
+        while (true)
+        {
+            clearConsole();
+            System.out.println("    KÓŁKO I KRZYŻYK    ");
+            System.out.println("-----------------------");
+            System.out.println("1. Nowa Gra");
+            System.out.println("9. Wyjdź");
+            System.out.print("\nPodaj opcję: ");
+            menuOption =  input.nextInt();
+    
+            if (menuOption == 1) {
+                clearConsole();
+                startGame();
+            } else if (menuOption == 9) {
+                System.exit(0);
+            } else {
+                System.out.println("Nieprawidłowe polecenie. Wybierz jeszcze raz.");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    System.out.println("Błąd wstrzymania programu");
+                } 
+            }
+        }
+    }
+
+    private static void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }
