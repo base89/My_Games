@@ -1,5 +1,6 @@
 package TicTacToe;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.lang.model.util.ElementScanner14;
@@ -85,7 +86,13 @@ public class TicTacToe {
                 printBoard();
                 if(isWin(noPlayer)) {
                     System.out.println("Gracz 1 WYGRYWA!\n");
-                    System.exit(0);
+                    try {
+                        System.out.print("Naciśnij dowolny przycisk...");
+                        System.in.read();
+                    } catch (IOException e) {
+                        System.out.println("Błąd pauzy programu");
+                    }
+                    displayMainMenu();
                 }
                 break;
 
@@ -95,7 +102,13 @@ public class TicTacToe {
                 printBoard();
                 if(isWin(noPlayer)) {
                     System.out.println("Gracz 2 WYGRYWA!\n");
-                    System.exit(0);
+                    try {
+                        System.out.print("Naciśnij dowolny przycisk...");
+                        System.in.read();
+                    } catch (IOException e) {
+                        System.out.println("Błąd pauzy programu");
+                    }
+                    displayMainMenu();
                 }
                 break;
         }
