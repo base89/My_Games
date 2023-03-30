@@ -21,27 +21,33 @@ public class TicTacToeTest {
 
     @DisplayName("Should returns true when there are three marks in line on board")
     @Test
-    void testIfWin() {
+    void testIsWin() {
         // given
         TicTacToe ttt = new TicTacToe();
         char[][] marks1 = {{'X', 'X', 'X'}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+        int[] lastMark1 = {0, 0};
         // when
         TicTacToe.setBoard(marks1);
+        TicTacToe.setLastMark(lastMark1);
         // then
-        assertTrue(ttt.ifWin());
+        assertTrue(ttt.isWin(0));
 
         // given
         char[][] marks2 = {{'X', ' ', ' '}, {'X', ' ', ' '}, {'X', ' ', ' '}};
+        int[] lastMark2 = {0, 0};
         // when
         TicTacToe.setBoard(marks2);
+        TicTacToe.setLastMark(lastMark2);
         // then
-        assertTrue(ttt.ifWin());
+        assertTrue(ttt.isWin(0));
 
         // given
         char[][] marks3 = {{'X', ' ', ' '}, {' ', 'X', ' '}, {' ', ' ', 'X'}};
+        int[] lastMark3 = {0, 0};
         // when
         TicTacToe.setBoard(marks3);
+        TicTacToe.setLastMark(lastMark3);
         // then
-        assertTrue(ttt.ifWin());
+        assertTrue(ttt.isWin(0));
     }
 }
