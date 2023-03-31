@@ -1,5 +1,6 @@
 package TicTacToe;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
@@ -49,5 +50,39 @@ public class TicTacToeTest {
         TicTacToe.setLastMark(lastMark3);
         // then
         assertTrue(ttt.isWin(0));
+    }
+
+    @DisplayName("Should returns true when given field is empty")
+    @Test
+    void testIsFieldAvailabled() {
+        // given
+        TicTacToe ttt = new TicTacToe();
+        char[][] marks1 = {{'X', 'X', 'X'}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+        int[] lastMark1 = {1, 1};
+        // when
+        TicTacToe.setBoard(marks1);
+        // then
+        assertTrue(ttt.isFieldAvailabled(lastMark1));
+    }
+
+    @DisplayName("Should returns false when given field is taken")
+    @Test
+    void testIsFieldUnavailabled() {
+        // given
+        TicTacToe ttt = new TicTacToe();
+        char[][] marks1 = {{'X', 'X', 'X'}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+        int[] lastMark1 = {0, 1};
+        // when
+        TicTacToe.setBoard(marks1);
+        // then
+        assertFalse(ttt.isFieldAvailabled(lastMark1));
+
+        // given
+        char[][] marks2 = {{'O', 'O', 'O'}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+        int[] lastMark2 = {0, 0};
+        // when
+        TicTacToe.setBoard(marks2);
+        // then
+        assertFalse(ttt.isFieldAvailabled(lastMark2));
     }
 }
