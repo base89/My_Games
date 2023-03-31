@@ -129,6 +129,13 @@ public class TicTacToe {
             noPlayer = ++noPlayer % 2;
             moves++;
         }
+        System.out.println("\nREMIS!\nSpróbuj jeszcze raz.\n");
+        try {
+            System.out.print("Naciśnij dowolny przycisk...");
+            System.in.read();
+        } catch (IOException e) {
+            System.out.println("\nBłąd pauzy programu\n");
+        }
     }
 
     public boolean isWin(int noPlayer) {
