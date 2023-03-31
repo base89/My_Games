@@ -3,8 +3,6 @@ package TicTacToe;
 import java.io.IOException;
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner14;
-
 public class TicTacToe {
 
     private static Scanner input = new Scanner(System.in);
@@ -48,18 +46,16 @@ public class TicTacToe {
         System.out.println(strBoard);
     }
 
-    public void markX(String marks) {
-        int[] field = convertStrToField(marks);
-        board[field[0]][field[1]] = 'X';
-        lastMark[0] = field[0];
-        lastMark[1] = field[1];
+    public void markX(int[] marks) {
+        board[marks[0]][marks[1]] = 'X';
+        lastMark[0] = marks[0];
+        lastMark[1] = marks[1];
     }
 
-    public void markO(String marks) {
-        int[] field = convertStrToField(marks);
-        board[field[0]][field[1]] = 'O';
-        lastMark[0] = field[0];
-        lastMark[1] = field[1];
+    public void markO(int[] marks) {
+        board[marks[0]][marks[1]] = 'O';
+        lastMark[0] = marks[0];
+        lastMark[1] = marks[1];
     }
 
     public static int[] convertStrToField(String mark) {
@@ -72,10 +68,16 @@ public class TicTacToe {
     public void enterFieldName(int noPlayer) {
         System.out.print("Podaj pole, które chcesz zaznaczyć (np. [0][0] wpisz 00): ");
         String userMark = input.next();
-        if (noPlayer == 0)
-            markX(userMark);
-        else
-            markO(userMark);
+        int[] field = convertStrToField(userMark);
+        if (isFieldAvailabled(field)) {
+            if (noPlayer == 0)
+                markX(field);
+            else
+                markO(field);
+        } else {
+            System.out.println("Wybrane pole jest już zaznaczone\n");
+            enterFieldName(noPlayer);
+        }
     }
 
     public void switchPlayer(int noPlayer) {
@@ -185,6 +187,12 @@ public class TicTacToe {
     private static void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public boolean isFieldAvailabled(int[] mark){
+        if (board[mark[0]][mark[1]] == 'X' | board[mark[0]][mark[1]] == 'O')
+            return false;
+        return true;
     }
 
 }
