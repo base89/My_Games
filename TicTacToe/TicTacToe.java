@@ -1,6 +1,7 @@
 package TicTacToe;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -24,7 +25,6 @@ public class TicTacToe {
         TicTacToe.lastMark = lastMark;
     }
 
-
     private static void fillArray() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -46,13 +46,13 @@ public class TicTacToe {
         System.out.println(strBoard);
     }
 
-    public void markX(int[] marks) {
+    private void markX(int[] marks) {
         board[marks[0]][marks[1]] = 'X';
         lastMark[0] = marks[0];
         lastMark[1] = marks[1];
     }
 
-    public void markO(int[] marks) {
+    private void markO(int[] marks) {
         board[marks[0]][marks[1]] = 'O';
         lastMark[0] = marks[0];
         lastMark[1] = marks[1];
@@ -65,34 +65,38 @@ public class TicTacToe {
         return new int[] { x, y };
     }
 
-    public void enterFieldName(int noPlayer) {
+    private void enterFieldName(int noPlayer) {
         System.out.print("Podaj pole, które chcesz zaznaczyć (np. [0][0] wpisz 00): ");
         String userMark = input.next();
-        int[] field = convertStrToField(userMark);
-        if (isFieldAvailabled(field)) {
-            if (noPlayer == 0)
-                markX(field);
-            else
-                markO(field);
+        if (isNumericValid(userMark)) {
+            int[] field = convertStrToField(userMark);
+            if (isFieldAvailabled(field)) {
+                if (noPlayer == 0)
+                    markX(field);
+                else
+                    markO(field);
+            } else {
+                System.out.println("\nWybrane pole jest już zaznaczone\n");
+                enterFieldName(noPlayer);
+            }
         } else {
-            System.out.println("Wybrane pole jest już zaznaczone\n");
             enterFieldName(noPlayer);
         }
     }
 
-    public void switchPlayer(int noPlayer) {
+    private void switchPlayer(int noPlayer) {
         switch (noPlayer) {
             case 0:
                 System.out.println("Gracz 1 -> zaznacz 'X'");
                 enterFieldName(0);
                 printBoard();
-                if(isWin(noPlayer)) {
+                if (isWin(noPlayer)) {
                     System.out.println("Gracz 1 WYGRYWA!\n");
                     try {
                         System.out.print("Naciśnij dowolny przycisk...");
                         System.in.read();
                     } catch (IOException e) {
-                        System.out.println("Błąd pauzy programu");
+                        System.out.println("\nBłąd pauzy programu\n");
                     }
                     displayMainMenu();
                 }
@@ -102,13 +106,13 @@ public class TicTacToe {
                 System.out.println("Gracz 2 -> zaznacz 'O'");
                 enterFieldName(1);
                 printBoard();
-                if(isWin(noPlayer)) {
+                if (isWin(noPlayer)) {
                     System.out.println("Gracz 2 WYGRYWA!\n");
                     try {
                         System.out.print("Naciśnij dowolny przycisk...");
                         System.in.read();
                     } catch (IOException e) {
-                        System.out.println("Błąd pauzy programu");
+                        System.out.println("\nBłąd pauzy programu\n");
                     }
                     displayMainMenu();
                 }
@@ -116,7 +120,7 @@ public class TicTacToe {
         }
     }
 
-    public void executeGame() {
+    private void executeGame() {
         int noPlayer = 0;
         final int MAX_MOVES = 9;
         int moves = 0;
@@ -131,14 +135,16 @@ public class TicTacToe {
         boolean winFlag = false;
         char playerMark;
 
-        if(noPlayer == 0)
+        if (noPlayer == 0)
             playerMark = 'X';
         else
             playerMark = 'O';
 
-        if (board[lastMark[0]][0] == playerMark & board[lastMark[0]][1] == playerMark & board[lastMark[0]][2] == playerMark) {
+        if (board[lastMark[0]][0] == playerMark & board[lastMark[0]][1] == playerMark
+                & board[lastMark[0]][2] == playerMark) {
             winFlag = true;
-        } else if (board[0][lastMark[1]] == playerMark & board[1][lastMark[1]] == playerMark & board[2][lastMark[1]] == playerMark) {
+        } else if (board[0][lastMark[1]] == playerMark & board[1][lastMark[1]] == playerMark
+                & board[2][lastMark[1]] == playerMark) {
             winFlag = true;
         } else if (board[0][0] == playerMark & board[1][1] == playerMark & board[2][2] == playerMark) {
             winFlag = true;
@@ -148,38 +154,48 @@ public class TicTacToe {
         return winFlag;
     }
 
-    public static void startGame(){
+    public static void startGame() {
         TicTacToe ttt = new TicTacToe();
         fillArray();
         ttt.printBoard();
         ttt.executeGame();
     }
 
-    public static void displayMainMenu(){
+    public static void displayMainMenu() {
         int menuOption;
 
-        while (true)
-        {
+        while (true) {
             clearConsole();
             System.out.println("    KÓŁKO I KRZYŻYK    ");
             System.out.println("-----------------------");
             System.out.println("1. Nowa Gra");
             System.out.println("9. Wyjdź");
             System.out.print("\nPodaj opcję: ");
-            menuOption =  input.nextInt();
-    
-            if (menuOption == 1) {
-                clearConsole();
-                startGame();
-            } else if (menuOption == 9) {
-                System.exit(0);
-            } else {
-                System.out.println("Nieprawidłowe polecenie. Wybierz jeszcze raz.");
+
+            try {
+                menuOption = input.nextInt();
+
+                if (menuOption == 1) {
+                    clearConsole();
+                    startGame();
+                } else if (menuOption == 9) {
+                    System.exit(0);
+                } else {
+                    System.out.println("\nNieprawidłowe polecenie. Wybierz jeszcze raz.\n");
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e1) {
+                        System.out.println("\nBłąd wstrzymania programu\n");
+                    }
+                }
+            } catch (InputMismatchException e2) {
+                input.nextLine();
+                System.out.println("\nNieprawidłowe polecenie\n");
                 try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    System.out.println("Błąd wstrzymania programu");
-                } 
+                    Thread.sleep(1500);
+                } catch (InterruptedException e1) {
+                    System.out.println("\nBłąd wstrzymania programu\n");
+                }
             }
         }
     }
@@ -189,10 +205,19 @@ public class TicTacToe {
         System.out.flush();
     }
 
-    public boolean isFieldAvailabled(int[] mark){
+    public boolean isFieldAvailabled(int[] mark) {
         if (board[mark[0]][mark[1]] == 'X' | board[mark[0]][mark[1]] == 'O')
             return false;
         return true;
     }
 
+    private static boolean isNumericValid(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("\nNieprawidłowy zapis cyfr\n");
+            return false;
+        }
+    }
 }
